@@ -2,7 +2,7 @@ from walker import NodeVisitor
 from symtab import *
 class SemanticAnalyzer(NodeVisitor):
     def __init__(self):
-        self.symtab = SymbolTable()
+        self.symtab = ScopedSymbolTable(scope_name='global', scope_level=1)
 
     def visit_Block(self, node):
         for declaration in node.declarations:
