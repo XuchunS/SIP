@@ -1,4 +1,4 @@
-import lexer
+from lexer import *
 
 class AST(object):
     pass
@@ -162,6 +162,14 @@ class Parser(object):
         ]
         return var_declarations
 
+    def formal_parameter_list(self):
+        """ formal_parameter_list : formal_parameters
+                                | formal_parameters SEMI formal_parameter_list
+        """
+
+    def formal_parameters(self):
+        """ formal_parameters : ID (COMMA ID)* COLON type_spec """
+        param_nodes = []
     def type_spec(self):
         """type_spec : INTEGER
                      | REAL
