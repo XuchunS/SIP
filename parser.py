@@ -1,4 +1,4 @@
-import lexer
+from lexer import *
 
 class AST(object):
     pass
@@ -71,10 +71,15 @@ class Type(AST):
         self.value = token.value
 
 class ProcedureDecl(AST):
-    def __init__(self, proc_name, block_node):
+    def __init__(self, proc_name, params, block_node):
         self.proc_name = proc_name
+        self.params = params
         self.block_node = block_node
 
+class Param(AST):
+    def __init__(self, var_node, type_node):
+        self.var_node = var_node
+        self.type_node = type_node
 
 class Parser(object):
     def __init__(self, lexer):
@@ -115,7 +120,7 @@ class Parser(object):
 
     def declarations(self):
         """declarations : VAR (variable_declaration SEMI)+
-                        | (PROCEDURE ID SEMI block SEMI)*
+                        | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
                         | empty
         """
         declarations = []
@@ -157,6 +162,14 @@ class Parser(object):
         ]
         return var_declarations
 
+    def formal_parameter_list(self):
+        """ formal_parameter_list : formal_parameters
+                                | formal_parameters SEMI formal_parameter_list
+        """
+
+    def formal_parameters(self):
+        """ formal_parameters : ID (COMMA ID)* COLON type_spec """
+        param_nodes = []
     def type_spec(self):
         """type_spec : INTEGER
                      | REAL
