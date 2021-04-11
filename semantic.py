@@ -93,3 +93,7 @@ class SemanticAnalyzer(NodeVisitor):
 
         self.current_scope = self.current_scope.enclosing_scope
         print('LEAVE scope: %s' %  proc_name)
+
+    def visit_ProcedureCall(self, node):
+        for param_node in node.actual_params:
+            self.visit(param_node)
